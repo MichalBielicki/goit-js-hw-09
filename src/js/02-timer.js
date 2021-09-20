@@ -45,13 +45,30 @@ const timeCheck = () => {
   }
 };
 
-const options = {
+const countdown = () => {
+  let time = choosenTime - currentTime;
+  remainingTime = setInterval(() => {
+    time -= 1000;
+    let remaining = convertMs(time);
+    daysOutput.innerHTML = addLeadingZero(remaining.days);
+    hoursOutput.innerHTML = addLeadingZero(remaining.hours);
+    minutesOutput.innerHTML = addLeadingZero(remaining.minutes);
+    secondsOutput.innerHTML = addLeadingZero(remaining.seconds);
+  }, 1000);
+  btnStart.setAttribute('disabled', true);
+};
+
+const addLeadingZero = value => {
+  return (currentValue = value.toString().padStart(2, 0));
+};
+const opts = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    choosenTime = selectedDates[0].getTime();
+    timeCheck();
   },
 };
 const fp = flatpickr(calendar, opts);
